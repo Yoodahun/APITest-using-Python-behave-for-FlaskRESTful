@@ -6,7 +6,7 @@ Feature: Execute Test that Happy Scenario from user create, store and item creat
   @RegressionTest @User
   Scenario: Register user
     Given User "Register" API
-    When I try create user with "test1" and "asdf" in request body
+    When I try create user with "test3" and "asdf" in request body
     Then response status code is 201
     And user has successfully created
 
@@ -15,7 +15,7 @@ Feature: Execute Test that Happy Scenario from user create, store and item creat
     Given User "GET" API
     When I try get user information with user_id
     Then response status code is 200
-    And "username" value in response body is equal to "test1"
+    And "username" value in response body is equal to "test3"
 
   @RegressionTest @User
   Scenario: Login user
@@ -90,6 +90,13 @@ Feature: Execute Test that Happy Scenario from user create, store and item creat
     When I try delete user information with user_id
     Then response status code is 200
     And user has successfully deleted
+
+  @RegressionTest @User
+  Scenario: Check user has deleted
+    Given User "GET" API
+    When I try get user information with user_id
+    Then response status code is 404
+    And user is not found
 
 
 
