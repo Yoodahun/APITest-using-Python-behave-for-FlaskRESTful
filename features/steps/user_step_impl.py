@@ -84,3 +84,11 @@ def login_user_with_username_and_password(context):
 
 def create_request_body_login_and_register(username, password):
     return {"username": username, "password": password}
+
+
+@step("user is not found")
+def user_not_found(context):
+    response_body = context.response.json()
+    print(response_body)
+
+    assert response_body["message"] == user_api_constants.user_not_found
