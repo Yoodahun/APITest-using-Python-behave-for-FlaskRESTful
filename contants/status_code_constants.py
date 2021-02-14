@@ -1,5 +1,5 @@
-response_code_is_200 = 200
-response_code_is_201 = 201
-response_code_is_400 = 400
-response_code_is_401 = 401
-response_code_is_500 = 500
+RESPONSE_CODE_IS_200 = 200
+RESPONSE_CODE_IS_201 = 201
+RESPONSE_CODE_IS_400 = 400
+RESPONSE_CODE_IS_401 = 401
+RESPONSE_CODE_IS_500 = 500

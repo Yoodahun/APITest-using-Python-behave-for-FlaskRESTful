@@ -1,4 +1,4 @@
-the_token_has_expired = "The token has expired"
-does_not_contain_an_access_token = "Request does not contain an access token."
-signature_verification_failed = "Signature verificaation failed."
-token_has_been_revoked = "The token has been revoked"
+THE_TOKEN_HAS_EXPIRED = "The token has expired"
+DOES_NOT_CONTAIN_AN_ACCESS_TOKEN = "Request does not contain an access token."
+SIGNATURE_VERIFICATION_FAILED = "Signature verificaation failed."
+TOKEN_HAS_BEEN_REVOKED = "The token has been revoked"

@@ -49,7 +49,7 @@ def check_user_create(context):
             context.request_body["password"],
         )
 
-    assert response_body["message"] == user_api_constants.user_created_successfully
+    assert response_body["message"] == user_api_constants.USER_CREATED_SUCCESSFULLY
 
 
 @when('I try delete user information with user_id')
@@ -65,7 +65,7 @@ def delete_user_info(context):
 def check_user_deleted(context):
     response_body = context.response.json()
 
-    assert response_body["message"] == user_api_constants.user_deleted_successfully
+    assert response_body["message"] == user_api_constants.USER_DELETED_SUCCESSFULLY
 
 
 @when('I try login user with username and password')
@@ -91,4 +91,4 @@ def user_not_found(context):
     response_body = context.response.json()
     print(response_body)
 
-    assert response_body["message"] == user_api_constants.user_not_found
+    assert response_body["message"] == user_api_constants.USER_NOT_FOUND

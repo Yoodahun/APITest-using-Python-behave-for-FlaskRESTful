@@ -1,9 +1,9 @@
 
 
-user_created_successfully = "User created successfully"
-user_deleted_successfully = "User deleted successfully."
-user_logout_successfully = "Successfully logged out"
-username_already_exists = "A User with that username already exists."
-this_fields_cannot_be_blank = "This field cannot be let blank."
-invalid_credentials = "	Invalid credentials"
-user_not_found = "User not found"
+USER_CREATED_SUCCESSFULLY = "User created successfully"
+USER_DELETED_SUCCESSFULLY = "User deleted successfully."
+USER_LOGOUT_SUCCESSFULLY = "Successfully logged out"
+USERNAME_ALREADY_EXISTS = "A User with that username already exists."
+THIS_FIELDS_CANNNOT_BE_BLANK = "This field cannot be let blank."
+INVALID_CREDENTIALS = "	Invalid credentials"
+USER_NOT_FOUND = "User not found"
