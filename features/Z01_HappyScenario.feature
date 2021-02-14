@@ -6,7 +6,7 @@ Feature: Execute Test that Happy Scenario from user create, store and item creat
   @RegressionTest @User
   Scenario: Register user
     Given User "Register" API
-    When I try create user with "test3" and "asdf" in request body
+    When I try create user with "test1" and "asdf" in request body
     Then response status code is 201
     And user has successfully created
 
@@ -15,7 +15,7 @@ Feature: Execute Test that Happy Scenario from user create, store and item creat
     Given User "GET" API
     When I try get user information with user_id
     Then response status code is 200
-    And "username" value in response body is equal to "test3"
+    And "username" value in response body is equal to "test1"
 
   @RegressionTest @User
   Scenario: Login user
@@ -41,42 +41,43 @@ Feature: Execute Test that Happy Scenario from user create, store and item creat
     Then response status code is 200
     And "name" value in response body is equal to "test_store2"
 
-#  @RegressionTest @Item
-#  Scenario: Create item
-#    Given Item create API
-#    And user has been logged in
-#    When I try create item information with "<item_name>" and "<price>", store_id in request body
-#    Then response status code is 201
-#    And response body has key that "<name>" and "<price>" and store_id
-#    And "<name>" is equal to "<item_name>" which in response body
-#    And "<store_id>" is equal to "<store_id>" which in response body
+  @RegressionTest @Item
+  Scenario: Create item
+    Given Item "create" API
+    And user has been logged in
+    When I try create item information with "test_item1" and "18.01", store_id in request body
+    Then response status code is 201
+    And response body has key that "name" and "price"
+    And "name" value in response body is equal to "test_item1"
+    And "store_id" value in response body is equal to store_id
+    And create item object in context object
+
+  @RegressionTest @Item
+  Scenario: Get item
+    Given Item "GET" API
+    And user has been logged in
+    When I try get item information with "test_item1"
+    Then response status code is 200
+    And "name" value in response body is equal to "test_item1"
+    And "store_id" value in response body is equal to store_id
+
+  @RegressionTest @Item
+  Scenario: Update item info
+    Given Item "PUT" API
+    And user has been logged in
+    When I try put item information with item_name and "20.25", store_id in request body
+    Then response status code is 200
+    And "name" value in response body is equal to "test_item1"
+    And "price" value in response body is equal to "20.25"
 #
-#  @RegressionTest @Item
-#  Scenario: Get item
-#    Given Item GET API
-#    And user has been logged in
-#    When I try get item information with "<item_name>"
-#    Then response status code is 200
-#    And "<name>" is equal to "<item_name>" which in response body
-#    And "<store_id>" is equal to "<store_id>" which in response body
-#
-#  @RegressionTest @Item
-#  Scenario: Update item info
-#    Given Item PUT API
-#    And user has been logged in
-#    When I try put item information with "<item_name>" and "<price>", store_id in request body
-#    Then response status code is 201
-#    And "<name>" is equal to "<item_name>" which in response body
-#    And "<price>" is equal to "<price>" which in response body
-#
-#  @RegressionTest @Item
-#  Scenario: Delete item
-#    Given Item DELETE API
+  @RegressionTest @Item
+  Scenario: Delete item
+    Given Item "DELETE" API
 #    And user has been logged in which user_id is 1
-#    When I try delete item information with "<item_name>" and "<price>", store_id in request body
-#    Then response status code is 200
-#    And item has successfully deleted
-#
+    When I try delete item information with "test_item1" in request body
+    Then response status code is 200
+    And item has successfully deleted
+
   @RegressionTest @Store
   Scenario: Delete store
     Given Store "DELETE" API
