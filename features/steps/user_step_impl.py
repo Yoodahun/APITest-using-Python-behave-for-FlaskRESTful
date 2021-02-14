@@ -92,3 +92,11 @@ def user_not_found(context):
     print(response_body)
 
     assert response_body["message"] == user_api_constants.USER_NOT_FOUND
+
+
+@step("save access_token and refresh_token in context object")
+def save_access_token_and_refresh_token(context):
+    response_body = context.response.json()
+    context.user.access_token = response_body["access_token"]
+    context.user.refresh_token = response_body["refresh_token"]
+
