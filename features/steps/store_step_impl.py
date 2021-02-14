@@ -7,17 +7,18 @@ import logging
 
 log = logging.getLogger("store_step_impl")
 
+
 @given('Store "{http_method}" API')
 def method(context, http_method):
     lower_endpoint = http_method.lower()
-    if lower_endpoint == "create" or lower_endpoint == "get" or lower_endpoint == "delete":
-        context.method_uri = "/store/"
-        print(context.method_uri)
+    # if lower_endpoint == "create" or lower_endpoint == "get" or lower_endpoint == "delete":
+    context.method_uri = "/store/"
+    log.info(f" method {context.method_uri}")
 
 
 @when('I try create store information with "{store_name}"')
 def create_store(context, store_name):
-    print(context.method_uri)
+    log.info(f" create_store {context.method_uri}")
 
     context.response = requests.post(
         api_basic_step_impl.API_URI +
