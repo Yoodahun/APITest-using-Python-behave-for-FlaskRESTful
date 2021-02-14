@@ -19,10 +19,15 @@ def method(context, http_method):
 
 @when('I try get user information with user_id')
 def get_user_info(context):
+    user_id = 1
+
+    if context.user is not None:
+        user_id = context.user.user_id
+
     context.response = requests.get(
         api_basic_step_impl.API_URI +
         context.method_uri + '/' +
-        context.user.user_id
+        user_id
     )
 
 
@@ -54,10 +59,15 @@ def check_user_create(context):
 
 @when('I try delete user information with user_id')
 def delete_user_info(context):
+    global user
+
+    if context.user.user_id == "1":
+        logout_and_login(context, user)
+
     context.response = requests.delete(
         api_basic_step_impl.API_URI +
         context.method_uri + "/" +
-        context.user.user_id
+        str(context.user.user_id)
     )
 
 
@@ -82,10 +92,6 @@ def login_user_with_username_and_password(context):
     )
 
 
-def create_request_body_login_and_register(username, password):
-    return {"username": username, "password": password}
-
-
 @step("user is not found")
 def user_not_found(context):
     response_body = context.response.json()
@@ -96,7 +102,78 @@ def user_not_found(context):
 
 @step("save access_token and refresh_token in context object")
 def save_access_token_and_refresh_token(context):
+    global user
+
     response_body = context.response.json()
     context.user.access_token = response_body["access_token"]
     context.user.refresh_token = response_body["refresh_token"]
 
+    user = context.user
+
+
+def create_request_body_login_and_register(username, password):
+    return {"username": username, "password": password}
+
+
+@step("user has been logged in which user_id is 1")
+def logout_and_login_user_id_1(context):
+    logout_header = api_basic_step_impl.header
+    logout_header["Authorization"] = "Bearer " + context.user.access_token
+
+    requests.post(
+        api_basic_step_impl.API_URI +
+        "/logout",
+        logout_header
+    )
+
+    user_info = get_user_info_with_user_id("1")
+
+    context.response = requests.post(
+        api_basic_step_impl.API_URI +
+        "/login",
+        create_request_body_login_and_register(
+            user_info[1], "asdf"
+        )
+    )
+
+    response_body = context.response.json()
+    context.user = User(
+        user_info[0],
+        user_info[1],
+        "asdf"
+    )
+    context.user.access_token = response_body["access_token"]
+    context.user.refresh_token = response_body["refresh_token"]
+
+
+def get_user_info_with_user_id(user_id):
+    response = requests.get(
+        api_basic_step_impl.API_URI +
+        '/user/' +
+        user_id
+    )
+
+    user_info = [
+        response.json()['id'],
+        response.json()['username']
+    ]
+    return user_info
+
+
+def logout_and_login(context, user_info):
+    logout_header = api_basic_step_impl.header
+    logout_header["Authorization"] = "Bearer " + user_info.access_token
+
+    requests.post(
+        api_basic_step_impl.API_URI +
+        "/logout",
+        header=logout_header
+    )
+
+    context.response = requests.post(
+        api_basic_step_impl.API_URI +
+        "/login",
+        create_request_body_login_and_register(
+            user_info.user_name, user_info.user_password
+        )
+    )
