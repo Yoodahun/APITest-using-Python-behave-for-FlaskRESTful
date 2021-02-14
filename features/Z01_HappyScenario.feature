@@ -23,23 +23,24 @@ Feature: Execute Test that Happy Scenario from user create, store and item creat
     When I try login user with username and password
     Then response status code is 200
     And response body has key that "access_token" and "refresh_token"
-#
-#  @RegressionTest @Store
-#  Scenario: Create store
-#    Given Store create API
-#    When I try create store information with "<store_name>"
-#    Then response status code is 201
-#    And response body has key that "<name>" and "<items>"
-#    And "<name>" is equal to "<store_name>" which in response body
-#    And save store_id in response body
-#
-#  @RegressionTest @Store
-#  Scenario: Get store
-#    Given Store GET API
-#    When I try get store information with "<store_name>"
-#    Then response status codes is 200
-#    And "<name>" is equal to "<store_name>" which in response body
-#
+    And save access_token and refresh_token in context object
+
+  @RegressionTest @Store
+  Scenario: Create store
+    Given Store "create" API
+    When I try create store information with "test_store2"
+    Then response status code is 201
+    And response body has key that "name" and "items"
+    And "name" value in response body is equal to "test_store2"
+    And create store object in context object
+
+  @RegressionTest @Store
+  Scenario: Get store
+    Given Store "GET" API
+    When I try get store information with "test_store2"
+    Then response status code is 200
+    And "name" value in response body is equal to "test_store2"
+
 #  @RegressionTest @Item
 #  Scenario: Create item
 #    Given Item create API
@@ -76,13 +77,13 @@ Feature: Execute Test that Happy Scenario from user create, store and item creat
 #    Then response status code is 200
 #    And item has successfully deleted
 #
-#  @RegressionTest @Store
-#  Scenario: Delete store
-#    Given Store DELETE API
-#    And user has been logged in
-#    When I try delete store information with "<store_name>"
-#    Then response status code is 200
-#    And store has successfully deleted
+  @RegressionTest @Store
+  Scenario: Delete store
+    Given Store "DELETE" API
+    And user has been logged in
+    When I try delete store information with "test_store2"
+    Then response status code is 200
+    And store has successfully deleted
 #
   @RegressionTest @User
   Scenario: Delete user
