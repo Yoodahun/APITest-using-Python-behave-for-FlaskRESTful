@@ -1,5 +1,5 @@
 from behave import *
-from models.User import User
+from features.steps.user_step_impl import *
 
 user = None
 store = None
@@ -30,3 +30,30 @@ def after_scenario(context, scenario):
         store = context.store
     if context.item:
         item = context.item
+
+
+def before_tag(context, tag):
+    if tag == "login_logout" or tag == "login":
+        print("execute before_login tag")
+        context.method_uri = "/login"
+        login_user_with_username_and_password(context, "jose2", "asdf")
+        context.user = User(
+                "2",
+                "jose2",
+                "asdf",
+            )
+        save_access_token_and_refresh_token(context)
+
+
+def after_tag(context, tag):
+    if tag == "login_logout":
+        print("logout")
+        logout_header = api_basic_step_impl.header
+        logout_header["Authorization"] = "Bearer " + context.user.access_token
+        print(logout_header)
+        context.response = requests.post(
+            api_basic_step_impl.API_URI +
+            "/logout",
+            headers=logout_header
+        )
+        print(context.response.json())

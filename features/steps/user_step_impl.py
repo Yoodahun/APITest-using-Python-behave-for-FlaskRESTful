@@ -1,6 +1,6 @@
 from behave import *
 import requests
-import api_basic_step_impl
+from features.steps import api_basic_step_impl
 from contants import user_api_constants
 from models.User import User
 
@@ -33,7 +33,6 @@ def get_user_info(context):
 
 @when('I try create user with "{user_name}" and "{password}" in request body')
 def create_user_info(context, user_name, password):
-
     request_json_body = create_request_body_login_and_register(user_name, password)
     context.request_body = request_json_body
 
@@ -81,7 +80,6 @@ def check_user_deleted(context):
 
 @when('I try login user with "{username}" and "{password}"')
 def login_user_with_username_and_password(context, username, password):
-
     try:
         request_body = create_request_body_login_and_register(
             context.user.user_name,
@@ -120,7 +118,6 @@ def save_access_token_and_refresh_token(context):
 
 
 def create_request_body_login_and_register(username, password):
-
     request_body = {}
 
     if username == "null":
@@ -177,12 +174,25 @@ def is_cannot_be_let_blank(context, attribute_name):
 
     assert response_body["message"][attribute_name] == user_api_constants.THIS_FIELDS_CANNOT_BE_BLANK
 
+
 @step("message is invalid credentials")
 def is_invalid_credentials(context):
     response_body = context.response.json()
 
     assert response_body["message"] == user_api_constants.INVALID_CREDENTIALS
 
+
+@when("logout user information")
+def logout(context):
+    logout_header = api_basic_step_impl.header
+    logout_header["Authorization"] = "Bearer " + context.user.access_token
+    print(logout_header)
+    context.response = requests.post(
+        api_basic_step_impl.API_URI +
+        "/logout",
+        headers=logout_header
+    )
+    print(context.response.json())
 
 def get_user_info_with_user_id(user_id):
     response = requests.get(
@@ -215,5 +225,3 @@ def logout_and_login(context, user_info):
             user_info.user_name, user_info.user_password
         )
     )
-
-
