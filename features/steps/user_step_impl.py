@@ -33,6 +33,7 @@ def get_user_info(context):
 
 @when('I try create user with "{user_name}" and "{password}" in request body')
 def create_user_info(context, user_name, password):
+
     request_json_body = create_request_body_login_and_register(user_name, password)
     context.request_body = request_json_body
 
@@ -112,7 +113,17 @@ def save_access_token_and_refresh_token(context):
 
 
 def create_request_body_login_and_register(username, password):
-    return {"username": username, "password": password}
+
+    request_body = {}
+
+    if username == "null":
+        request_body["password"] = password
+    elif password == "null":
+        request_body["username"] = username
+    else:
+        request_body = {"username": username, "password": password}
+
+    return request_body
 
 
 @step("user has been logged in which user_id is 1")
@@ -146,6 +157,20 @@ def logout_and_login_user_id_1(context):
     context.user.refresh_token = response_body["refresh_token"]
 
 
+@step("message is user with that username already exists")
+def user_with_that_username_already_exists(context):
+    response_body = context.response.json()
+
+    assert response_body["message"] == user_api_constants.USERNAME_ALREADY_EXISTS
+
+
+@step('"{attribute_name}" is cannot be let blank')
+def is_cannot_be_let_blank(context, attribute_name):
+    response_body = context.response.json()
+
+    assert response_body["message"][attribute_name] == user_api_constants.THIS_FIELDS_CANNOT_BE_BLANK
+
+
 def get_user_info_with_user_id(user_id):
     response = requests.get(
         api_basic_step_impl.API_URI +
@@ -177,3 +202,5 @@ def logout_and_login(context, user_info):
             user_info.user_name, user_info.user_password
         )
     )
+
+
