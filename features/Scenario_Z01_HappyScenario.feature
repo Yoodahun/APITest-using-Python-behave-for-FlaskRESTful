@@ -20,7 +20,7 @@ Feature: Execute Test that Happy Scenario from user create, store and item creat
   @RegressionTest @User
   Scenario: Login user
     Given User "Login" API
-    When I try login user with username and password
+    When I try login user with "test1" and "asdf"
     Then response status code is 200
     And response body has key that "access_token" and "refresh_token"
     And save access_token and refresh_token in context object

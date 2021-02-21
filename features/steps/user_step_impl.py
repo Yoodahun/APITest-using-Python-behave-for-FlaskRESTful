@@ -79,12 +79,19 @@ def check_user_deleted(context):
     assert response_body["message"] == user_api_constants.USER_DELETED_SUCCESSFULLY
 
 
-@when('I try login user with username and password')
-def login_user_with_username_and_password(context):
-    request_body = create_request_body_login_and_register(
-        context.user.user_name,
-        context.user.user_password
-    )
+@when('I try login user with "{username}" and "{password}"')
+def login_user_with_username_and_password(context, username, password):
+
+    try:
+        request_body = create_request_body_login_and_register(
+            context.user.user_name,
+            context.user.user_password
+        )
+    except AttributeError as e:
+        request_body = create_request_body_login_and_register(
+            username,
+            password
+        )
 
     context.response = requests.post(
         api_basic_step_impl.API_URI +
@@ -169,6 +176,12 @@ def is_cannot_be_let_blank(context, attribute_name):
     response_body = context.response.json()
 
     assert response_body["message"][attribute_name] == user_api_constants.THIS_FIELDS_CANNOT_BE_BLANK
+
+@step("message is invalid credentials")
+def is_invalid_credentials(context):
+    response_body = context.response.json()
+
+    assert response_body["message"] == user_api_constants.INVALID_CREDENTIALS
 
 
 def get_user_info_with_user_id(user_id):
