@@ -21,7 +21,7 @@ Feature: Store feature
     Given Store "GET" API
     When I try get store information with "not_registered_store"
     Then response status code is 404
-    And message is store not found
+    And message is "Store not found"
 
   @Store
   Scenario: Create store

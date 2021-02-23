@@ -7,18 +7,18 @@ Feature: User feature
     Given User "Login" API
     When I try login user with "not_registered_user" and "password"
     Then response status code is 401
-    And message is invalid credentials
+    And message is "Invalid credentials"
 
     @User
   Scenario: GET - User not found
     Given User "GET" API
     When I try get user information with user_id
     Then response status code is 404
-    And message is user not found
+    And message is "User not found"
 
     @User
   Scenario: DELETE - User not found
     Given User "DELETE" API
     When I try delete user information with user_id
     Then response status code is 404
-    And message is user not found
+    And message is "User not found"

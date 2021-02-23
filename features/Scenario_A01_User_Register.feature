@@ -6,7 +6,7 @@ Feature: User Register feature
     Given User "Register" API
     When I try create user with "jose2" and "asdf" in request body
     Then response status code is 400
-    And message is user with that username already exists
+    And message is "A User with that username already exists"
 
   Scenario: Check username attribute in Request is cannot be let blank
     Given User "Register" API
