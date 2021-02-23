@@ -21,15 +21,18 @@ def method(context, http_method):
 
 @when('I try get user information with user_id')
 def get_user_info(context):
-    user_id = 1
+    user_id = ""
 
-    if context.user is not None:
-        user_id = context.user.user_id
+    try:
+        if context.user is not None:
+            user_id = context.user.user_id
+    except AttributeError as e:
+        user_id = 1
 
     context.response = requests.get(
         api_basic_step_impl.API_URI +
         context.method_uri + '/' +
-        user_id
+        str(user_id)
     )
 
 
@@ -63,14 +66,20 @@ def check_user_create(context):
 @when('I try delete user information with user_id')
 def delete_user_info(context):
     global user
+    user_id = ""
 
-    if context.user.user_id == "1":
-        logout_and_login(context, user)
+    # if context.user.user_id == "1":
+    #     logout_and_login(context, user)
+    try:
+        if context.user is not None:
+            user_id = context.user.user_id
+    except AttributeError as e:
+        user_id = 1
 
     context.response = requests.delete(
         api_basic_step_impl.API_URI +
         context.method_uri + "/" +
-        str(context.user.user_id)
+        str(user_id)
     )
 
 
@@ -203,6 +212,7 @@ def is_user_not_found(context):
     response_body = context.response.json()
 
     assert response_body["message"] == user_api_constants.USER_NOT_FOUND
+
 
 def get_user_info_with_user_id(user_id):
     response = requests.get(
