@@ -35,8 +35,14 @@ def check_key_value(context, key1, key2):
 
 
 @step("user has been logged in")
-def step_impl(context):
-    assert context.user is not None
+def user_has_been_logged_in(context):
+    try:
+        if context.user.user_id:
+            return True
+        else:
+            return False
+    except AttributeError as e:
+        return False
 
 
 @step('message is "{response_in_message}"')
