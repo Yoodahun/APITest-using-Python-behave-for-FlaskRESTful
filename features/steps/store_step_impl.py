@@ -85,11 +85,15 @@ def message_is_store_not_found(context):
 
 @step('message is store with "{store_name}" already exists')
 def message_is_store_with_store_name_already_exits(context, store_name):
-    response_body = context.response.json()
-    assert response_body["message"] == store_api_contants.store_name_already_exists(store_name)
+    api_basic_step_impl.check_message_is(
+        context,
+        store_api_contants.store_name_already_exists(store_name)
+    )
 
 
 @step('message is store with "{store_name}" is not exists')
-def message_is_store_with_storename_is_not_exists(context, store_name):
-    response_body = context.response.json()
-    assert response_body["message"] == store_api_contants.store_is_not_exists(store_name)
+def message_is_store_with_store_name_is_not_exists(context, store_name):
+    api_basic_step_impl.check_message_is(
+        context,
+        store_api_contants.store_is_not_exists(store_name)
+    )
