@@ -24,12 +24,13 @@ def after_scenario(context, scenario):
     global store
     global item
 
-    if context.user:
+    try:
+
         user = context.user
-    if context.store:
         store = context.store
-    if context.item:
         item = context.item
+    except AttributeError as e:
+        print(e)
 
 
 def before_tag(context, tag):
@@ -38,10 +39,10 @@ def before_tag(context, tag):
         context.method_uri = "/login"
         login_user_with_username_and_password(context, "jose2", "asdf")
         context.user = User(
-                "2",
-                "jose2",
-                "asdf",
-            )
+            "2",
+            "jose2",
+            "asdf",
+        )
         save_access_token_and_refresh_token(context)
 
 
