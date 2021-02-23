@@ -1,10 +1,12 @@
-from behave import *
 import requests
+import logging
+from behave import *
 from features.steps import api_basic_step_impl
 from contants import user_api_constants
 from models.User import User
 
 user = None
+log = logging.getLogger("user_step_impl.py")
 
 
 @given(u'User "{http_method}" API')
@@ -48,6 +50,7 @@ def check_user_create(context):
     response_body = context.response.json()
 
     if response_body["id"]:
+        log.info(response_body["id"])
         context.user = User(
             str(response_body["id"]),
             context.request_body["username"],
@@ -193,6 +196,13 @@ def logout(context):
         headers=logout_header
     )
     print(context.response.json())
+
+
+@step("message is user not found")
+def is_user_not_found(context):
+    response_body = context.response.json()
+
+    assert response_body["message"] == user_api_constants.USER_NOT_FOUND
 
 def get_user_info_with_user_id(user_id):
     response = requests.get(
