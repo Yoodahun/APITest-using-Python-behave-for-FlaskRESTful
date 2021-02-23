@@ -10,6 +10,7 @@ header = {
 
 log = logging.getLogger("api_basic_step_impl")
 
+
 @then(u'response status code is {status_code:d}')
 def check_status_code(context, status_code):
     log.info(f"check status code {context.response}")
@@ -36,3 +37,10 @@ def check_key_value(context, key1, key2):
 @step("user has been logged in")
 def step_impl(context):
     assert context.user is not None
+
+
+@step('message is "{response_in_message}"')
+def check_message_is(context, response_in_message):
+    response_body = context.response.json()
+
+    assert response_body["message"] == response_in_message
