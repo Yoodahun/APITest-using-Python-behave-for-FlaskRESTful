@@ -61,3 +61,35 @@ def check_store_deleted(context):
     response_body = context.response.json()
     log.info(response_body)
     assert response_body["message"] == store_api_contants.STORE_DELETED
+
+
+@when("I try get stores information")
+def get_stores_information(context):
+    context.response = requests.get(
+        api_basic_step_impl.API_URI +
+        "/stores"
+    )
+
+
+@step('"{response_attribute}" value in stores response body is equal to "{store_name}"')
+def check_value_in_stores_response_body(context, response_attribute, store_name):
+    response_body = context.response.json()
+    assert response_body["stores"][0][response_attribute] == store_name
+
+
+@step("message is store not found")
+def message_is_store_not_found(context):
+    response_body = context.response.json()
+    assert response_body["message"] == store_api_contants.STORE_NOT_FOUND
+
+
+@step('message is store with "{store_name}" already exists')
+def message_is_store_with_store_name_already_exits(context, store_name):
+    response_body = context.response.json()
+    assert response_body["message"] == store_api_contants.store_name_already_exists(store_name)
+
+
+@step('message is store with "{store_name}" is not exists')
+def message_is_store_with_storename_is_not_exists(context, store_name):
+    response_body = context.response.json()
+    assert response_body["message"] == store_api_contants.store_is_not_exists(store_name)
