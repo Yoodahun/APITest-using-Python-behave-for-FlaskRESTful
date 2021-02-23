@@ -27,3 +27,6 @@ Feature: Item feature
     And "name" value in response body is equal to "chair4"
     And "store_id" value in response body is equal to store_id
 
+# TODO: Create item
+# TODO: UPDATE item
+# TODO: DELETE item
