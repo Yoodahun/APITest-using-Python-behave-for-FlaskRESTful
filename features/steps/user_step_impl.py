@@ -173,25 +173,11 @@ def logout_and_login_user_id_1(context):
     context.user.refresh_token = response_body["refresh_token"]
 
 
-@step("message is user with that username already exists")
-def user_with_that_username_already_exists(context):
-    response_body = context.response.json()
-
-    assert response_body["message"] == user_api_constants.USERNAME_ALREADY_EXISTS
-
-
 @step('"{attribute_name}" is cannot be let blank')
 def is_cannot_be_let_blank(context, attribute_name):
     response_body = context.response.json()
 
     assert response_body["message"][attribute_name] == user_api_constants.THIS_FIELDS_CANNOT_BE_BLANK
-
-
-@step("message is invalid credentials")
-def is_invalid_credentials(context):
-    response_body = context.response.json()
-
-    assert response_body["message"] == user_api_constants.INVALID_CREDENTIALS
 
 
 @when("logout user information")
@@ -205,13 +191,6 @@ def logout(context):
         headers=logout_header
     )
     print(context.response.json())
-
-
-@step("message is user not found")
-def is_user_not_found(context):
-    response_body = context.response.json()
-
-    assert response_body["message"] == user_api_constants.USER_NOT_FOUND
 
 
 def get_user_info_with_user_id(user_id):
