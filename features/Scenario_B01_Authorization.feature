@@ -2,13 +2,13 @@
 Feature: Authorization feature
   check response about authorization
 
-  @login_logout
+  @login
   Scenario: Request does not contain an access token
     When logout without access token
     Then response status code is 401
     And description is "Request does not contain an access token."
 
-  @login_logout
+  @login
   Scenario: Signature verification failed
     When logout with wrong access token
     Then response status code is 401
