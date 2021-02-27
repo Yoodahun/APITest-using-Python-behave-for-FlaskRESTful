@@ -183,7 +183,7 @@ def is_cannot_be_let_blank(context, attribute_name):
 @when("logout user information")
 def logout(context):
     logout_header = api_basic_step_impl.header
-    logout_header["Authorization"] = "Bearer " + context.user.access_token
+    logout_header["Authorization"] = f"Bearer {context.user.access_token}"
     print(logout_header)
     context.response = requests.post(
         api_basic_step_impl.API_URI +
