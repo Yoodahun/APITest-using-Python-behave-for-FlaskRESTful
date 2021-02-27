@@ -8,7 +8,6 @@ item = None
 
 
 def before_scenario(context, scenario):
-
     global user
     global store
     global item
@@ -19,7 +18,6 @@ def before_scenario(context, scenario):
         context.store = store
     if item is not None:
         context.item = item
-
 
 
 def after_scenario(context, scenario):
@@ -45,7 +43,6 @@ def before_tag(context, tag):
     print(tag)
 
     if tag == "login_logout" or tag == "login":
-
         context.method_uri = "/login"
         login_user_with_username_and_password(context, "jose2", "asdf")
         context.user = User(
@@ -56,33 +53,18 @@ def before_tag(context, tag):
         save_access_token_and_refresh_token(context)
 
     if tag == "create_item_model":
-        item = Item(
-            _id=None,
-            name="create_test_item1",
-            price=None,
-            store_id=52
-        )
+        item = create_item(52)
+
     if tag == "update_item_without_store_id_in_DB":
-        item = Item(
-            _id=None,
-            name="create_test_item1",
-            price=None,
-            store_id=402
-        )
+        item = create_item(402)
+
     if tag == "update_item_without_store_id":
-        item = Item(
-            _id=None,
-            name="create_test_item1",
-            price=None,
-            store_id=None
-        )
+        item = create_item(None)
 
     if tag == "item_feature_start":
         user = None
         store = None
         item = None
-    # if tag == "logout":
-    #     logout(context)
 
 
 def after_tag(context, tag):
@@ -90,3 +72,11 @@ def after_tag(context, tag):
     if tag == "login_logout" or tag == "logout":
         logout(context)
 
+
+def create_item(store_id):
+    return Item(
+        _id=None,
+        name="create_test_item1",
+        price=None,
+        store_id=store_id
+    )
