@@ -1,4 +1,3 @@
-
 class Item():
 
     def __init__(self, _id, name, price, store_id):
