@@ -191,7 +191,7 @@ Feature: Store feature
 ```gherkin
 # Created by yoodahun at 2021/02/23
 Feature: Item feature
-  # Enter feature description here
+  GET items, GET item / Create item / Update item / DELETE item
 
   @Item @item_feature_start
   Scenario: GET items without login
