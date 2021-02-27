@@ -11,8 +11,7 @@ log = logging.getLogger("item_step_impl.py")
 
 @given('Item "{http_method}" API')
 def method(context, http_method):
-    context.method_uri = "/item/"
-    log.info(f" method {context.method_uri}")
+    pass
 
 
 @when('I try create item information with "{item_name}" and "{price}", store_id in request body')
@@ -31,7 +30,7 @@ def create_item(context, item_name, price):
 
     context.response = requests.post(
         api_basic_step_impl.API_URI +
-        context.method_uri +
+        "/item/" +
         item_name,
         data=request_body,
         headers=get_bearer_auth(context)
@@ -70,7 +69,7 @@ def create_item_object_in_context_object(context):
 def get_item(context, item_name):
     context.response = requests.get(
         api_basic_step_impl.API_URI +
-        context.method_uri +
+        "/item/" +
         item_name,
         headers=get_bearer_auth(context)
     )
@@ -80,7 +79,7 @@ def get_item(context, item_name):
 def delete_item(context, item_name):
     context.response = requests.delete(
         api_basic_step_impl.API_URI +
-        context.method_uri +
+        "/item/" +
         item_name,
         headers=get_bearer_auth(context)
     )
@@ -103,7 +102,7 @@ def put_item(context, price):
 
     context.response = requests.put(
         api_basic_step_impl.API_URI +
-        context.method_uri +
+        "/item/" +
         context.item.item_name,
         data=request_body
     )
@@ -166,9 +165,11 @@ def create_item_with_item_name_price_and_store_id(context, item_name, price, sto
     create_item(context, item_name, price)
 
 
-@when('I try create item information with "{item_name}" and "{price}", without store_id in request body')
-def create_item_with_item_name_and_price_no_store_id(context, item_name, price):
-    pass
+@step("store_id is Every item needs a store id")
+def every_item_needs_a_store_id(context):
+    response_body = context.response.json()
+
+    assert response_body["message"]["store_id"] == item_api_contants.EVERY_ITEM_NEEDS_A_STORE_ID
 
 
 def get_bearer_auth(context):
@@ -193,10 +194,3 @@ def create_item_request_body(price, store_id):
         }
 
     return request_body
-
-
-@step("store_id is Every item needs a store id")
-def every_item_needs_a_store_id(context):
-    response_body = context.response.json()
-
-    assert response_body["message"]["store_id"] == item_api_contants.EVERY_ITEM_NEEDS_A_STORE_ID
