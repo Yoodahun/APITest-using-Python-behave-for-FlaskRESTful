@@ -1,9 +1,8 @@
 from behave import *
-import requests
 import logging
-import contants.status_code_constants
 
-API_URI = "https://practice-flask-restful-dh.herokuapp.com"
+
+API_URI = "http://practice-flask-restful-dh.herokuapp.com"
 header = {
     "Content-Type": "application/json"
 }
