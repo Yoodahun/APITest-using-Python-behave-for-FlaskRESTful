@@ -1,6 +1,6 @@
 # Created by yoodahun at 2021/02/23
 Feature: Item feature
-  # Enter feature description here
+  GET items, GET item / Create item / Update item / DELETE item
 
   @Item @item_feature_start
   Scenario: GET items without login
@@ -27,7 +27,6 @@ Feature: Item feature
     And "name" value in response body is equal to "chair4"
     And "store_id" value in response body is equal to store_id
 
-## TODO: Create item
   @Item
   Scenario: Create item
     Given Item "create" API
@@ -71,7 +70,6 @@ Feature: Item feature
     Then response status code is 400
     And store_id is Every item needs a store id
 
-## TODO: UPDATE item
   @Item @create_item_model
   Scenario: Update item
     Given Item "PUT" API
@@ -106,7 +104,6 @@ Feature: Item feature
     And store_id is Every item needs a store id
 
 
-## TODO: DELETE item
   @Item @logout
   Scenario: Delete item
     Given Item "DELETE" API
