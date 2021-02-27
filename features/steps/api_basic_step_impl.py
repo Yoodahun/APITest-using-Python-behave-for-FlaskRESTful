@@ -1,6 +1,6 @@
 from behave import *
+from contants import user_api_constants
 import logging
-
 
 API_URI = "http://practice-flask-restful-dh.herokuapp.com"
 header = {
@@ -49,3 +49,10 @@ def check_message_is(context, response_in_message):
     response_body = context.response.json()
 
     assert response_body["message"] == response_in_message
+
+
+@step('"{attribute_name}" is cannot be let blank')
+def attribute_is_cannot_be_let_blank(context, attribute_name):
+    response_body = context.response.json()
+
+    assert response_body["message"][attribute_name] == user_api_constants.THIS_FIELDS_CANNOT_BE_BLANK

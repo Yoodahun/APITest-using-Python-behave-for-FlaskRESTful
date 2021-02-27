@@ -35,9 +35,5 @@ def logout_with_wrong_access_token(context):
 @step('description is "{message}"')
 def description_message_check(context, message):
     response_body = context.response.json()
-    if message == "Request does not contain an access token.":
-        assert response_body["description"] == authorization_message_constants.DOES_NOT_CONTAIN_AN_ACCESS_TOKEN
-    elif message == "Signature verification failed.":
-        assert response_body["description"] == authorization_message_constants.SIGNATURE_VERIFICATION_FAILED
-    elif message == "The token has been revoked":
-        assert response_body["description"] == authorization_message_constants.TOKEN_HAS_BEEN_REVOKED
+
+    assert response_body["description"] == message

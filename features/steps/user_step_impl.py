@@ -173,12 +173,6 @@ def logout_and_login_user_id_1(context):
     context.user.refresh_token = response_body["refresh_token"]
 
 
-@step('"{attribute_name}" is cannot be let blank')
-def is_cannot_be_let_blank(context, attribute_name):
-    response_body = context.response.json()
-
-    assert response_body["message"][attribute_name] == user_api_constants.THIS_FIELDS_CANNOT_BE_BLANK
-
 
 @when("logout user information")
 def logout(context):
