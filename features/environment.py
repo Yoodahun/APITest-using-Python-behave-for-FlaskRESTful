@@ -1,4 +1,3 @@
-from behave import *
 from features.steps.user_step_impl import *
 from models.Item import Item
 
@@ -39,8 +38,6 @@ def before_tag(context, tag):
     global user
     global store
     global item
-
-    print(tag)
 
     if tag == "login_logout" or tag == "login":
         context.method_uri = "/login"
